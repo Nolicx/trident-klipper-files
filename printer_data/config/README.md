@@ -80,11 +80,29 @@ All status macros activate matching effects on the StealthBurner logo, StealthBu
 | `CASE_LIGHT_OFF` | `components/case_lights.cfg` | Turns off the case lighting. |
 | `CASE_LIGHT_TOGGLE` | `components/case_lights.cfg` | Toggles the case lighting on/off. |
 
+### Pause & Resume
+
+| Macro | File | Description |
+|---|---|---|
+| `PAUSE` | `macros/pause_resume.cfg` | Pauses the print, parks the toolhead safely, and saves the current position for resuming. |
+| `RESUME` | `macros/pause_resume.cfg` | Restores the saved position and resumes the print. |
+| `CANCEL_PRINT` | `macros/pause_resume.cfg` | Cancels the print. Runs the full `PRINT_END` sequence if the printer is homed, otherwise just turns off heaters and motors. |
+| `M600` | `macros/pause_resume.cfg` | Filament change command. Pauses the print and prompts the user to change filament. Resume via Mainsail or `RESUME`. |
+
+### Filament
+
+| Macro | File | Description |
+|---|---|---|
+| `LOAD_FILAMENT` | `macros/filament.cfg` | Heats the nozzle and extrudes filament to prime the nozzle. Optional parameter: `TEMP=` (default: `purge_temp_min + 10°C`). |
+| `UNLOAD_FILAMENT` | `macros/filament.cfg` | Heats the nozzle, does a small purge, then retracts filament. Optional parameter: `TEMP=` (default: `purge_temp_min + 10°C`). |
+
 ### Utilities
 
 | Macro | File | Description |
 |---|---|---|
 | `TEST_SPEED_FAST` | `macros/speed_test.cfg` | Runs a diagonal and edge travel speed test across the full bed at the configured travel speed. Useful for verifying max speed stability. |
+| `SET_PRINT_STATS_INFO` | `macros/misc.cfg` | Override of the Klipper built-in. Updates the display with the current layer number during printing. Add `SET_PRINT_STATS_INFO TOTAL_LAYER={total_layer_count}` to slicer start gcode and `SET_PRINT_STATS_INFO CURRENT_LAYER={current_layer}` to layer change gcode. |
+| `DUMP_VARIABLES` | `macros/misc.cfg` | Prints all current Klipper printer variables to the console. Optional parameter: `NAME=` to filter by keyword. Useful for debugging macros. |
 | `M109` | `macros/misc.cfg` | Override of the standard M109 (wait for nozzle temp). Uses `TEMPERATURE_WAIT` with a ±1°C window instead of blocking indefinitely, allowing Klipper to process other commands. |
 | `M190` | `macros/misc.cfg` | Override of the standard M190 (wait for bed temp). Same approach as M109 override. |
 
@@ -93,3 +111,7 @@ All status macros activate matching effects on the StealthBurner logo, StealthBu
 | Macro | File | Description |
 |---|---|---|
 | `_VARIABLES` | `macros/_variables.cfg` | Central configuration store for all positions, speeds, temperatures, and feature flags. All macros read from here — edit this file to tune printer behaviour without touching individual macros. |
+
+Hinweis für den Slicer** — damit Layer-Anzeige in Mainsail funktioniert, in OrcaSlicer eintragen:
+- Start G-Code: `SET_PRINT_STATS_INFO TOTAL_LAYER=[total_layer_count]`
+- Layer Change G-Code: `SET_PRINT_STATS_INFO CURRENT_LAYER=[cur_layer]
