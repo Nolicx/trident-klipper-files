@@ -62,18 +62,20 @@ Backup provided by [Klipper-Backup](https://github.com/Staubgeborener/Klipper-Ba
 
 ### Lighting
 
+All status macros activate matching effects on the StealthBurner logo, StealthBurner nozzle, and Disco on a Stick simultaneously via the internal `_SET_STATUS` helper. Adding a new state only requires defining the three matching effects in the LED config files and one new macro line.
+
 | Macro | File | Description |
 |---|---|---|
-| `STATUS_READY` | `macros/lighting_control.cfg` | Sets LEDs to idle/ready state. |
+| `STATUS_OFF` | `macros/lighting_control.cfg` | Turns off all LED effects. |
+| `STATUS_READY` | `macros/lighting_control.cfg` | Sets LEDs to idle/ready state (RGB gradient + twinkle). |
 | `STATUS_PRINTING` | `macros/lighting_control.cfg` | Sets LEDs to printing state (warm white). |
 | `STATUS_HEATING_NOZZLE` | `macros/lighting_control.cfg` | Sets LEDs to nozzle heating state (orange). |
 | `STATUS_HEATING_BED` | `macros/lighting_control.cfg` | Sets LEDs to bed heating state (red). |
 | `STATUS_HEATSOAKING` | `macros/lighting_control.cfg` | Sets LEDs to heatsoaking state (amber). |
 | `STATUS_HOMING` | `macros/lighting_control.cfg` | Sets LEDs to homing state (green). |
 | `STATUS_CLEANING` | `macros/lighting_control.cfg` | Sets LEDs to cleaning state (blue). |
-| `STATUS_LEVELING` | `macros/lighting_control.cfg` | Sets LEDs to leveling state (purple). |
+| `STATUS_LEVELING` | `macros/lighting_control.cfg` | Sets LEDs to gantry leveling state (purple). |
 | `STATUS_MESHING` | `macros/lighting_control.cfg` | Sets LEDs to bed mesh state (lime). |
-| `STATUS_CALIBRATING_Z` | `macros/lighting_control.cfg` | Sets LEDs to Z calibration state (dark blue). |
 | `CASE_LIGHT_ON` | `components/case_lights.cfg` | Turns on the case lighting at full brightness. |
 | `CASE_LIGHT_OFF` | `components/case_lights.cfg` | Turns off the case lighting. |
 | `CASE_LIGHT_TOGGLE` | `components/case_lights.cfg` | Toggles the case lighting on/off. |
