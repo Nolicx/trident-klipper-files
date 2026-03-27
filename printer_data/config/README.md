@@ -112,6 +112,14 @@ All status macros activate matching effects on the StealthBurner logo, StealthBu
 |---|---|---|
 | `_VARIABLES` | `macros/_variables.cfg` | Central configuration store for all positions, speeds, temperatures, and feature flags. All macros read from here — edit this file to tune printer behaviour without touching individual macros. |
 
+### Diagnostics
+
+| Macro | File | Description |
+|---|---|---|
+| `GET_KLIPPER_LOG` | `shell_command.cfg` | Prints the last 100 lines of `klippy.log` to the Mainsail console. |
+| `GET_MOONRAKER_LOG` | `shell_command.cfg` | Prints the last 100 lines of `moonraker.log` to the Mainsail console. |
+| `CHECK_DISK_SPACE` | `shell_command.cfg` | Shows free disk space on the `printer_data` partition. |
+
 Hinweis für den Slicer** — damit Layer-Anzeige in Mainsail funktioniert, in OrcaSlicer eintragen:
 - Start G-Code: `SET_PRINT_STATS_INFO TOTAL_LAYER=[total_layer_count]`
 - Layer Change G-Code: `SET_PRINT_STATS_INFO CURRENT_LAYER=[cur_layer]
