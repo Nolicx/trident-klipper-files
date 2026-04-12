@@ -1,7 +1,17 @@
 # Voron Trident 300mm — Klipper Config
 
-Klipper configuration for a Voron Trident 300mm CoreXY printer.
+Klipper configuration for a Voron Trident 300mm CoreXY printer running [Kalico](https://github.com/KalicoCrew/kalico).
 Backup provided by [Klipper-Backup](https://github.com/Staubgeborener/Klipper-Backup).
+
+---
+
+## Kalico Features in Use
+
+| Feature | Description |
+|---|---|
+| `[constants]` | Config-time constants defined once in `printer.cfg` and referenced with `${constants.name}` syntax. Used for motor names, run currents, sense resistors, microsteps, rotation distances, and bed center coordinates — eliminates repetition across stepper and autotune sections. |
+| `z_tilt_ng` | Drop-in replacement for `z_tilt` with `adaptive_horizontal_move_z: True` — automatically adjusts probe height between passes for faster, more accurate gantry leveling. Supports `extra_points` for `Z_TILT_CALIBRATE`. Replaces the manual two-pass `Z_TILT_ADJUST` macro override. |
+| `PID_PROFILE` | Per-material PID profiles for extruder and bed heaters. See To Do section. |
 
 ---
 
@@ -35,20 +45,34 @@ Backup provided by [Klipper-Backup](https://github.com/Staubgeborener/Klipper-Ba
 
 ---
 
+## Fans
+
+| Fan | Type | Description |
+|---|---|---|
+| `hotend_fan` | `heater_fan` | Runs whenever extruder temp exceeds 40°C |
+| `nevermore` | `fan_generic` | Activated during print start for high-temp materials (ABS/ASA), off at print end |
+| `exhaust_fan` | `fan_generic` | Manual control |
+| `electronics_bay_fan` | `temperature_fan` | Curve-controlled by host CPU temp (0% below 45°C, 100% at 70°C) |
+| `stepper_driver_fan` | `controller_fan` | Runs at full speed when any stepper is active, off after 10s idle |
+| `part_cooling` | `fan_generic` | Controlled by `M106`/`M107` (fan P0) |
+| `auxiliary` | `fan_generic` | Controlled by `M106`/`M107` (fan P2) |
+
+---
+
 ## Macros
 
 ### Print Flow
 
 | Macro | File | Description |
 |---|---|---|
-| `PRINT_START` | `macros/print_start.cfg` | Full print start sequence: homes axes, heats bed with optional heatsoak, heats nozzle to probe temp, cleans nozzle, homes Z, levels gantry, cleans again, homes Z, maps bed mesh, heats to print temp, final clean, purge line. |
-| `PRINT_END` | `macros/print_end.cfg` | Print end sequence: retracts filament, raises Z, cleans nozzle, turns off heaters and fans, lowers bed to presentation height, disables motors. |
+| `PRINT_START` | `macros/print_start.cfg` | Full print start sequence: homes axes, heats bed, heats nozzle to probe temp (150°C). If `BED_TEMP > bed_temp_high` (90°C): starts nevermore fan and heats soak for 5 min. Cleans nozzle, homes Z, levels gantry (`Z_TILT_ADJUST`), cleans again, homes Z, maps adaptive bed mesh, heats to print temp (parked), final clean, `LINE_PURGE`. Parameters: `BED=` (bed temp °C), `EXTRUDER=` (extruder temp °C). |
+| `PRINT_END` | `macros/print_end.cfg` | Print end sequence: retracts 10mm, turns off heaters and fans, clears bed mesh, raises Z by `end_z_raise`, lowers bed to `end_z_present` (150mm), cleans nozzle without raising Z back up (`RETURN=0`), disables motors, turns off case light and nevermore. |
 
 ### Toolhead
 
 | Macro | File | Description |
 |---|---|---|
-| `PARK` | `macros/park.cfg` | Moves the toolhead safely to the brush/park position at the rear of the bed. Raises Z first, then navigates with a safe approach to avoid collisions near the rear. Homes axes if needed. |
+| `PARK` | `macros/park.cfg` | Moves the toolhead safely to the brush/park position at the rear of the bed. Raises Z by `Z_HOP` (default: `park_z_hop`) first, then navigates with a safe approach to avoid collisions near the rear. Homes if needed. Parameters: `Z_HOP=` (mm to raise before moving). |
 | `CLEAN_NOZZLE` | `macros/clean_nozzle.cfg` | Cleans the nozzle on the brush. Supports a linear wipe mode and a circular arc scrub mode, configurable via `_VARIABLES`. Optionally purges filament before wiping. Parameters: `PURGE=` (mm to purge), `CLEAN=` (target temp °C), `RETURN=` (raise Z after cleaning, default 1). |
 
 ### Homing
@@ -58,7 +82,7 @@ Backup provided by [Klipper-Backup](https://github.com/Staubgeborener/Klipper-Ba
 | `CG28` | `macros/misc.cfg` | Conditional home — homes all axes only if not already homed. |
 | `CG28XY` | `macros/misc.cfg` | Conditional home — homes X and Y only if not already homed. |
 | `CG28Z` | `macros/misc.cfg` | Conditional home — homes Z only if not already homed. |
-| `Z_TILT_ADJUST` | `macros/misc.cfg` | Two-pass gantry leveling. First pass with 10mm clearance and loose tolerance to roughly level, second pass at 2mm for precision. |
+| `Z_TILT_ADJUST` | *(Kalico built-in)* | Gantry leveling using `z_tilt_ng`. With `adaptive_horizontal_move_z: True`, Kalico automatically adjusts probe height between passes — no macro override needed. |
 
 ### Lighting
 
@@ -84,8 +108,8 @@ All status macros activate matching effects on the StealthBurner logo, StealthBu
 
 | Macro | File | Description |
 |---|---|---|
-| `PAUSE` | `macros/pause_resume.cfg` | Pauses the print, parks the toolhead safely, and saves the current position for resuming. |
-| `RESUME` | `macros/pause_resume.cfg` | Restores the saved position and resumes the print. |
+| `PAUSE` | `macros/pause_resume.cfg` | Pauses the print, saves current fan speeds (part cooling + auxiliary), parks the toolhead, and turns off fans. |
+| `RESUME` | `macros/pause_resume.cfg` | Cleans the nozzle, restores the saved toolhead position, restores fan speeds, and resumes the print. |
 | `CANCEL_PRINT` | `macros/pause_resume.cfg` | Cancels the print. Runs the full `PRINT_END` sequence if the printer is homed, otherwise just turns off heaters and motors. |
 | `M600` | `macros/pause_resume.cfg` | Filament change command. Pauses the print and prompts the user to change filament. Resume via Mainsail or `RESUME`. |
 
@@ -101,7 +125,7 @@ All status macros activate matching effects on the StealthBurner logo, StealthBu
 | Macro | File | Description |
 |---|---|---|
 | `TEST_SPEED_FAST` | `macros/speed_test.cfg` | Runs a diagonal and edge travel speed test across the full bed at the configured travel speed. Useful for verifying max speed stability. |
-| `SET_PRINT_STATS_INFO` | `macros/misc.cfg` | Override of the Klipper built-in. Updates the display with the current layer number during printing. Add `SET_PRINT_STATS_INFO TOTAL_LAYER={total_layer_count}` to slicer start gcode and `SET_PRINT_STATS_INFO CURRENT_LAYER={current_layer}` to layer change gcode. |
+| `SET_PRINT_STATS_INFO` | `macros/misc.cfg` | Override of the Klipper built-in. Updates the display with the current layer number during printing. Add `SET_PRINT_STATS_INFO TOTAL_LAYER=[total_layer_count]` to slicer start gcode and `SET_PRINT_STATS_INFO CURRENT_LAYER={layer_num + 1}` to layer change gcode. |
 | `DUMP_VARIABLES` | `macros/misc.cfg` | Prints all current Klipper printer variables to the console. Optional parameter: `NAME=` to filter by keyword. Useful for debugging macros. |
 | `M109` | `macros/misc.cfg` | Override of the standard M109 (wait for nozzle temp). Uses `TEMPERATURE_WAIT` with a ±1°C window instead of blocking indefinitely, allowing Klipper to process other commands. |
 | `M190` | `macros/misc.cfg` | Override of the standard M190 (wait for bed temp). Same approach as M109 override. |
@@ -120,6 +144,24 @@ All status macros activate matching effects on the StealthBurner logo, StealthBu
 | `GET_MOONRAKER_LOG` | `shell_command.cfg` | Prints the last 100 lines of `moonraker.log` to the Mainsail console. |
 | `CHECK_DISK_SPACE` | `shell_command.cfg` | Shows free disk space on the `printer_data` partition. |
 
-Hinweis für den Slicer** — damit Layer-Anzeige in Mainsail funktioniert, in OrcaSlicer eintragen:
-- Start G-Code: `SET_PRINT_STATS_INFO TOTAL_LAYER=[total_layer_count]`
-- Layer Change G-Code: `SET_PRINT_STATS_INFO CURRENT_LAYER=[cur_layer]
+---
+
+## OrcaSlicer Setup
+
+Add to slicer gcode so that the layer counter in Mainsail works correctly:
+
+- **Start G-Code:** `SET_PRINT_STATS_INFO TOTAL_LAYER=[total_layer_count]`
+- **Layer Change G-Code:** `SET_PRINT_STATS_INFO CURRENT_LAYER={layer_num + 1}`
+
+---
+
+## To Do
+
+- **PID Profile kalibrieren** — Kalico unterstützt mehrere PID-Profile pro Heater. Jeweils kalibrieren und speichern:
+  1. `PID_CALIBRATE HEATER=extruder TARGET=210` → `PID_PROFILE SAVE=pla HEATER=extruder`
+  2. `PID_CALIBRATE HEATER=heater_bed TARGET=60` → `PID_PROFILE SAVE=pla HEATER=heater_bed`
+  3. `PID_CALIBRATE HEATER=extruder TARGET=250` → `PID_PROFILE SAVE=abs HEATER=extruder`
+  4. `PID_CALIBRATE HEATER=heater_bed TARGET=110` → `PID_PROFILE SAVE=abs HEATER=heater_bed`
+  5. `SAVE_CONFIG` nach jeder Kalibrierung
+  - Kalibrierung mit gleichen Bedingungen wie beim echten Druck (Bauteilkühlung an, Bett auf Drucktemperatur)
+  - Danach PRINT_START anpassen um automatisch das passende Profil zu laden
