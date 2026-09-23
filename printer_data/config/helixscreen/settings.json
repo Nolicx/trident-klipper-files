@@ -1,6 +1,6 @@
 {
   "active_printer_id": "default",
-  "config_version": 20,
+  "config_version": 23,
   "dark_mode": true,
   "display": {
     "bed_mesh_render_mode": 0,
@@ -42,138 +42,153 @@
     "entries": [
       {
         "phases": {
-          "7": 152,
-          "9": 7
+          "7": 136,
+          "9": 11
+        },
+        "temp_bucket": 2,
+        "timestamp": 1789975332,
+        "total": 252,
+        "window": 1
+      },
+      {
+        "phases": {
+          "7": 137,
+          "9": 11
+        },
+        "temp_bucket": 2,
+        "timestamp": 1789977704,
+        "total": 274,
+        "window": 1
+      },
+      {
+        "phases": {
+          "7": 117,
+          "9": 11
+        },
+        "temp_bucket": 2,
+        "timestamp": 1790007978,
+        "total": 337,
+        "window": 1
+      },
+      {
+        "phases": {
+          "7": 116,
+          "9": 12
+        },
+        "temp_bucket": 2,
+        "timestamp": 1790071333,
+        "total": 288,
+        "window": 1
+      },
+      {
+        "phases": {
+          "7": 118,
+          "9": 15
+        },
+        "temp_bucket": 2,
+        "timestamp": 1790087693,
+        "total": 294,
+        "window": 1
+      },
+      {
+        "phases": {
+          "7": 136,
+          "9": 11
         },
         "temp_bucket": 1,
-        "timestamp": 1785349587,
-        "total": 269
+        "timestamp": 1789973288,
+        "total": 338,
+        "window": 1
       },
       {
         "phases": {
-          "7": 162,
-          "9": 9
+          "7": 134,
+          "9": 12
         },
         "temp_bucket": 1,
-        "timestamp": 1785430276,
-        "total": 311
+        "timestamp": 1789974691,
+        "total": 297,
+        "window": 1
       },
       {
         "phases": {
-          "7": 171,
-          "9": 8
+          "7": 137,
+          "9": 11
         },
         "temp_bucket": 1,
-        "timestamp": 1785523995,
-        "total": 317
+        "timestamp": 1789977041,
+        "total": 324,
+        "window": 1
       },
       {
         "phases": {
-          "7": 188,
-          "9": 9
+          "7": 136,
+          "9": 12
         },
         "temp_bucket": 1,
-        "timestamp": 1785572827,
-        "total": 340
+        "timestamp": 1790006075,
+        "total": 339,
+        "window": 1
       },
       {
         "phases": {
-          "7": 165,
-          "9": 7
+          "7": 172,
+          "9": 12
         },
         "temp_bucket": 1,
-        "timestamp": 1785586283,
-        "total": 304
+        "timestamp": 1790011510,
+        "total": 335,
+        "window": 1
       },
       {
         "phases": {
-          "7": 163,
-          "9": 7
+          "7": 116,
+          "9": 12
         },
-        "temp_bucket": 2,
-        "timestamp": 1785263947,
-        "total": 251
+        "temp_bucket": 1,
+        "timestamp": 1790064909,
+        "total": 338,
+        "window": 1
       },
       {
         "phases": {
-          "7": 161,
-          "9": 6
+          "7": 117,
+          "9": 11
         },
-        "temp_bucket": 2,
-        "timestamp": 1785269638,
-        "total": 253
+        "temp_bucket": 1,
+        "timestamp": 1790082480,
+        "total": 310,
+        "window": 1
       },
       {
         "phases": {
-          "7": 164,
-          "9": 6
+          "7": 116,
+          "9": 11
         },
-        "temp_bucket": 2,
-        "timestamp": 1785345028,
-        "total": 241
+        "temp_bucket": 1,
+        "timestamp": 1790087037,
+        "total": 323,
+        "window": 1
       },
       {
         "phases": {
-          "7": 163,
-          "9": 6
+          "7": 118,
+          "9": 15
         },
-        "temp_bucket": 2,
-        "timestamp": 1785345794,
-        "total": 243
+        "temp_bucket": 1,
+        "timestamp": 1790094033,
+        "total": 316,
+        "window": 1
       },
       {
         "phases": {
-          "7": 153,
-          "9": 7
+          "7": 116,
+          "9": 12
         },
-        "temp_bucket": 2,
-        "timestamp": 1785346294,
-        "total": 243
-      },
-      {
-        "phases": {
-          "7": 156,
-          "9": 7
-        },
-        "temp_bucket": 2,
-        "timestamp": 1785441329,
-        "total": 270
-      },
-      {
-        "phases": {
-          "7": 164,
-          "9": 6
-        },
-        "temp_bucket": 2,
-        "timestamp": 1785441770,
-        "total": 287
-      },
-      {
-        "phases": {
-          "7": 223,
-          "9": 7
-        },
-        "temp_bucket": 2,
-        "timestamp": 1785573229,
-        "total": 318
-      },
-      {
-        "phases": {
-          "7": 192,
-          "9": 7
-        },
-        "temp_bucket": 2,
-        "timestamp": 1785577342,
-        "total": 299
-      },
-      {
-        "phases": {
-          "7": 177,
-          "9": 6
-        },
-        "temp_bucket": 2,
-        "timestamp": 1785586770,
-        "total": 243
+        "temp_bucket": 1,
+        "timestamp": 1790106815,
+        "total": 315,
+        "window": 1
       }
     ]
   },
@@ -240,7 +255,7 @@
             "temperature_sensor System on a Chip",
             "temperature_sensor Chamber"
           ],
-          "timestamp": "2026-08-01T12:21:57Z"
+          "timestamp": "2026-09-23T16:47:22Z"
         },
         "optional": []
       },
@@ -249,6 +264,11 @@
         "hotend": "extruder"
       },
       "leds": {
+        "auto_paired_bases": [
+          "CASE_LIGHT",
+          "SET_LOGO_LEDS",
+          "SET_NOZZLE_LEDS"
+        ],
         "auto_state": {},
         "color_presets": [
           "#FFFFFF",
@@ -264,7 +284,32 @@
         "last_color": "#FFFFFF",
         "last_white": 0.0,
         "led_on_at_start": false,
-        "macro_devices": [],
+        "macro_devices": [
+          {
+            "name": "Case Light",
+            "off_macro": "CASE_LIGHT_OFF",
+            "on_macro": "CASE_LIGHT_ON",
+            "presets": [],
+            "toggle_macro": "",
+            "type": "on_off"
+          },
+          {
+            "name": "Set Logo Leds",
+            "off_macro": "SET_LOGO_LEDS_OFF",
+            "on_macro": "SET_LOGO_LEDS_ON",
+            "presets": [],
+            "toggle_macro": "",
+            "type": "on_off"
+          },
+          {
+            "name": "Set Nozzle Leds",
+            "off_macro": "SET_NOZZLE_LEDS_OFF",
+            "on_macro": "SET_NOZZLE_LEDS_ON",
+            "presets": [],
+            "toggle_macro": "",
+            "type": "on_off"
+          }
+        ],
         "selected": [],
         "selected_strips": [
           "output_pin caselight"
@@ -598,6 +643,7 @@
         "hotend": "extruder"
       },
       "type": "Voron Trident",
+      "type_mismatch_shown_for": "Voron Trident",
       "wizard_completed": true
     },
     "show_printer_switcher": false
@@ -609,10 +655,10 @@
   "thermal": {
     "rates": {
       "extruder": {
-        "heat_rate": 3.301339864730835
+        "heat_rate": 3.063009738922119
       },
       "heater_bed": {
-        "heat_rate": 2.36250901222229
+        "heat_rate": 2.348719358444214
       }
     }
   },

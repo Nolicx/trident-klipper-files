@@ -10,8 +10,10 @@ Backup provided by [Klipper-Backup](https://github.com/Staubgeborener/Klipper-Ba
 | Feature | Description |
 |---|---|
 | `[constants]` | Config-time constants defined once in `printer.cfg` and referenced with `${constants.name}` syntax. Used for motor names, run currents, sense resistors, microsteps, rotation distances, and bed center coordinates — eliminates repetition across stepper and autotune sections. |
-| `z_tilt_ng` | Drop-in replacement for `z_tilt` with `adaptive_horizontal_move_z: True` — automatically adjusts probe height between passes for faster, more accurate gantry leveling. Supports `extra_points` for `Z_TILT_CALIBRATE`. Replaces the manual two-pass `Z_TILT_ADJUST` macro override. |
+| `z_tilt_ng` | Drop-in replacement for `z_tilt` with `adaptive_horizontal_move_z: True` — automatically adjusts probe height between passes for faster, more accurate gantry leveling. Supports `extra_points` for `Z_TILT_CALIBRATE`. `increasing_threshold: 0.02` tolerates probe noise between retries without aborting. Replaces the manual two-pass `Z_TILT_ADJUST` macro override. |
 | `PID_PROFILE` | Per-material PID profiles for extruder and bed heaters. See To Do section. |
+| `BED_MESH_CHECK` | Called at the end of `PRINT_START` right after `BED_MESH_CALIBRATE` — aborts the print instead of proceeding if the mesh's max deviation or slope (`mesh_max_deviation`/`mesh_max_slope` in `_VARIABLES`) indicates a bad probe point (debris, crash, outlier). |
+| `[probe] drop_first_result` | Discards the first sample of each probe point — the first TAP trigger is a known outlier source. |
 
 ---
 
@@ -41,7 +43,7 @@ Backup provided by [Klipper-Backup](https://github.com/Staubgeborener/Klipper-Ba
 
 | Extension | Description |
 |---|---|
-| [Klipper-Adaptive-Meshing-Purging (KAMP)](https://github.com/kyleisah/Klipper-Adaptive-Meshing-Purging) | Generates a bed mesh and purge line only in the area actually used by the print. Reduces print start time and improves first layer accuracy for small prints. |
+| [Squiggly Purge](https://github.com/mjonuschat/voron-mods/tree/main/Squiggly%20Purge) | Sinusoidal purge/prime line, adaptively positioned near the print area using `[exclude_object]` polygon data. Used by `PRINT_START` in place of a straight purge line. |
 
 ---
 
@@ -65,8 +67,9 @@ Backup provided by [Klipper-Backup](https://github.com/Staubgeborener/Klipper-Ba
 
 | Macro | File | Description |
 |---|---|---|
-| `PRINT_START` | `macros/print_start.cfg` | Full print start sequence: homes axes, heats bed, heats nozzle to probe temp (150°C). If `BED_TEMP > bed_temp_high` (90°C): starts nevermore fan and heats soak for 5 min. Cleans nozzle, homes Z, levels gantry (`Z_TILT_ADJUST`), cleans again, homes Z, maps adaptive bed mesh, heats to print temp (parked), final clean, `LINE_PURGE`. Parameters: `BED=` (bed temp °C), `EXTRUDER=` (extruder temp °C). |
-| `PRINT_END` | `macros/print_end.cfg` | Print end sequence: retracts 10mm, turns off heaters and fans, clears bed mesh, raises Z by `end_z_raise`, lowers bed to `end_z_present` (150mm), cleans nozzle without raising Z back up (`RETURN=0`), disables motors, turns off case light and nevermore. |
+| `PRINT_START` | `macros/print_start.cfg` | Full print start sequence: homes axes, heats bed, heats nozzle to probe temp (150°C). If `BED_TEMP > bed_temp_high` (90°C): starts nevermore fan and heats soak for 5 min. Cleans nozzle, homes Z, levels gantry (`Z_TILT_ADJUST`), cleans again, homes Z, maps adaptive bed mesh, heats to print temp (parked), final clean, `SQUIGGLY_PURGE`. Parameters: `BED=` (bed temp °C), `EXTRUDER=` (extruder temp °C). |
+| `PRINT_END` | `macros/print_end.cfg` | Print end sequence: retracts `purge_line_tip` mm, turns off heaters and fans, clears bed mesh, moves to the fixed presentation height `max_z - end_z_clearance` (never moving down through a taller print — only raises by `end_z_raise` in that case), cleans nozzle without raising Z back up (`RETURN=0`), disables motors, turns off case light and nevermore. |
+| `SQUIGGLY_PURGE` | `macros/squiggly_purge.cfg` | Draws a sinusoidal purge/prime line adaptively positioned near the print area. Third-party macro ([source](https://github.com/mjonuschat/voron-mods/tree/main/Squiggly%20Purge)); height/width/length/margin/flow/tip come from `_VARIABLES` (`purge_line_*`), everything else uses its defaults. Called with `LINE_WIDTH` set (solver mode) so the macro sizes the path itself instead of a fixed path length — keeps height/width under its 0.75 adhesion limit regardless of purge amount. |
 
 ### Toolhead
 
@@ -134,7 +137,15 @@ All status macros activate matching effects on the StealthBurner logo, StealthBu
 
 | Macro | File | Description |
 |---|---|---|
-| `_VARIABLES` | `macros/_variables.cfg` | Central configuration store for all positions, speeds, temperatures, and feature flags. All macros read from here — edit this file to tune printer behaviour without touching individual macros. |
+| `_VARIABLES` | `macros/_variables.cfg` | Central configuration store for all positions, speeds, temperatures, and feature flags. All macros read from here — edit this file to tune printer behaviour without touching individual macros. Values marked `[live]` can instead be overridden at runtime, see below. |
+
+Cleaning/purge/mesh-check values marked `[live]` in `_variables.cfg` (wipe, circular scrub, purge, `SQUIGGLY_PURGE`, `BED_MESH_CHECK` thresholds) can be changed without editing files or restarting:
+
+```
+SAVE_VARIABLE VARIABLE=wipe_spd VALUE=180
+```
+
+The override persists across restarts in `saved_variables.cfg` (via Klipper's built-in `[save_variables]`) and takes priority over the `_variables.cfg` default. To go back to the default, either edit `_variables.cfg` after removing the override from `saved_variables.cfg`, or `SAVE_VARIABLE` the original value back.
 
 ### Diagnostics
 
@@ -142,6 +153,7 @@ All status macros activate matching effects on the StealthBurner logo, StealthBu
 |---|---|---|
 | `GET_KLIPPER_LOG` | `shell_command.cfg` | Prints the last 100 lines of `klippy.log` to the Mainsail console. |
 | `GET_MOONRAKER_LOG` | `shell_command.cfg` | Prints the last 100 lines of `moonraker.log` to the Mainsail console. |
+| `RELOAD_GCODE_MACROS` | *(Kalico built-in)* | Reloads all `[gcode_macro]` templates from disk without a full Klipper restart. Use after editing any `macros/*.cfg` file while iterating. |
 | `CHECK_DISK_SPACE` | `shell_command.cfg` | Shows free disk space on the `printer_data` partition. |
 
 ---
@@ -157,11 +169,9 @@ Add to slicer gcode so that the layer counter in Mainsail works correctly:
 
 ## To Do
 
-- **PID Profile kalibrieren** — Kalico unterstützt mehrere PID-Profile pro Heater. Jeweils kalibrieren und speichern:
-  1. `PID_CALIBRATE HEATER=extruder TARGET=210` → `PID_PROFILE SAVE=pla HEATER=extruder`
-  2. `PID_CALIBRATE HEATER=heater_bed TARGET=60` → `PID_PROFILE SAVE=pla HEATER=heater_bed`
-  3. `PID_CALIBRATE HEATER=extruder TARGET=250` → `PID_PROFILE SAVE=abs HEATER=extruder`
-  4. `PID_CALIBRATE HEATER=heater_bed TARGET=110` → `PID_PROFILE SAVE=abs HEATER=heater_bed`
-  5. `SAVE_CONFIG` nach jeder Kalibrierung
+- **PID Profile für heater_bed kalibrieren** — `extruder`-Profile (PLA/ABS) sind bereits kalibriert und gespeichert; der Extruder selbst nutzt inzwischen aber MPC statt PID, `PID_PROFILE LOAD=... HEATER=extruder` in `PRINT_START` ist daher obsolet (siehe Kommentar dort). Für `heater_bed` fehlen die Profile noch:
+  1. `PID_CALIBRATE HEATER=heater_bed TARGET=60` → `PID_PROFILE SAVE=pla HEATER=heater_bed`
+  2. `PID_CALIBRATE HEATER=heater_bed TARGET=110` → `PID_PROFILE SAVE=abs HEATER=heater_bed`
+  3. `SAVE_CONFIG` nach jeder Kalibrierung
   - Kalibrierung mit gleichen Bedingungen wie beim echten Druck (Bauteilkühlung an, Bett auf Drucktemperatur)
-  - Danach PRINT_START anpassen um automatisch das passende Profil zu laden
+  - Danach `PRINT_START` um einen `PID_PROFILE LOAD=... HEATER=heater_bed`-Aufruf ergänzen
