@@ -42,12 +42,58 @@
     "entries": [
       {
         "phases": {
-          "7": 136,
-          "9": 11
+          "7": 118,
+          "9": 15
         },
-        "temp_bucket": 2,
-        "timestamp": 1789975332,
-        "total": 252,
+        "temp_bucket": 1,
+        "timestamp": 1790094033,
+        "total": 316,
+        "window": 1
+      },
+      {
+        "phases": {
+          "7": 116,
+          "9": 12
+        },
+        "temp_bucket": 1,
+        "timestamp": 1790106815,
+        "total": 315,
+        "window": 1
+      },
+      {
+        "phases": {
+          "2": 17,
+          "7": 121,
+          "8": 60,
+          "9": 12
+        },
+        "temp_bucket": 1,
+        "timestamp": 1790185187,
+        "total": 315,
+        "window": 1
+      },
+      {
+        "phases": {
+          "2": 55,
+          "7": 143,
+          "8": 5,
+          "9": 12
+        },
+        "temp_bucket": 1,
+        "timestamp": 1790238352,
+        "total": 344,
+        "window": 1
+      },
+      {
+        "phases": {
+          "2": 58,
+          "7": 123,
+          "8": 6,
+          "9": 14
+        },
+        "temp_bucket": 1,
+        "timestamp": 1790251669,
+        "total": 312,
         "window": 1
       },
       {
@@ -92,104 +138,74 @@
       },
       {
         "phases": {
-          "7": 134,
-          "9": 12
-        },
-        "temp_bucket": 1,
-        "timestamp": 1789974691,
-        "total": 297,
-        "window": 1
-      },
-      {
-        "phases": {
-          "7": 137,
-          "9": 11
-        },
-        "temp_bucket": 1,
-        "timestamp": 1789977041,
-        "total": 324,
-        "window": 1
-      },
-      {
-        "phases": {
-          "7": 136,
-          "9": 12
-        },
-        "temp_bucket": 1,
-        "timestamp": 1790006075,
-        "total": 339,
-        "window": 1
-      },
-      {
-        "phases": {
-          "7": 172,
-          "9": 12
-        },
-        "temp_bucket": 1,
-        "timestamp": 1790011510,
-        "total": 335,
-        "window": 1
-      },
-      {
-        "phases": {
-          "7": 116,
-          "9": 12
-        },
-        "temp_bucket": 1,
-        "timestamp": 1790064909,
-        "total": 338,
-        "window": 1
-      },
-      {
-        "phases": {
-          "7": 117,
-          "9": 11
-        },
-        "temp_bucket": 1,
-        "timestamp": 1790082480,
-        "total": 310,
-        "window": 1
-      },
-      {
-        "phases": {
-          "7": 116,
-          "9": 11
-        },
-        "temp_bucket": 1,
-        "timestamp": 1790087037,
-        "total": 323,
-        "window": 1
-      },
-      {
-        "phases": {
-          "7": 118,
-          "9": 15
-        },
-        "temp_bucket": 1,
-        "timestamp": 1790094033,
-        "total": 316,
-        "window": 1
-      },
-      {
-        "phases": {
-          "7": 116,
-          "9": 12
-        },
-        "temp_bucket": 1,
-        "timestamp": 1790106815,
-        "total": 315,
-        "window": 1
-      },
-      {
-        "phases": {
-          "2": 17,
+          "2": 12,
           "7": 121,
-          "8": 60,
+          "8": 61,
           "9": 12
         },
-        "temp_bucket": 1,
-        "timestamp": 1790185187,
-        "total": 315,
+        "temp_bucket": 2,
+        "timestamp": 1790241224,
+        "total": 257,
+        "window": 1
+      },
+      {
+        "phases": {
+          "2": 57,
+          "7": 135,
+          "8": 5,
+          "9": 11
+        },
+        "temp_bucket": 2,
+        "timestamp": 1790242542,
+        "total": 233,
+        "window": 1
+      },
+      {
+        "phases": {
+          "2": 13,
+          "7": 126,
+          "8": 69,
+          "9": 18
+        },
+        "temp_bucket": 2,
+        "timestamp": 1790244334,
+        "total": 295,
+        "window": 1
+      },
+      {
+        "phases": {
+          "2": 33,
+          "7": 126,
+          "8": 114,
+          "9": 18
+        },
+        "temp_bucket": 2,
+        "timestamp": 1790245302,
+        "total": 308,
+        "window": 1
+      },
+      {
+        "phases": {
+          "2": 58,
+          "7": 145,
+          "8": 6,
+          "9": 14
+        },
+        "temp_bucket": 2,
+        "timestamp": 1790254992,
+        "total": 328,
+        "window": 1
+      },
+      {
+        "phases": {
+          "2": 30,
+          "7": 124,
+          "8": 133,
+          "9": 12
+        },
+        "temp_bucket": 2,
+        "timestamp": 1790256152,
+        "total": 316,
         "window": 1
       }
     ]
@@ -257,7 +273,7 @@
             "temperature_sensor System on a Chip",
             "temperature_sensor Chamber"
           ],
-          "timestamp": "2026-09-23T17:15:01Z"
+          "timestamp": "2026-09-24T09:06:37Z"
         },
         "optional": []
       },
@@ -657,10 +673,10 @@
   "thermal": {
     "rates": {
       "extruder": {
-        "heat_rate": 1.6912544965744019
+        "heat_rate": 2.1124894618988037
       },
       "heater_bed": {
-        "heat_rate": 1.9332507848739624
+        "heat_rate": 2.4386303424835205
       }
     }
   },
