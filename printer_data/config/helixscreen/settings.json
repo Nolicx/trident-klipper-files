@@ -42,16 +42,6 @@
     "entries": [
       {
         "phases": {
-          "7": 118,
-          "9": 15
-        },
-        "temp_bucket": 1,
-        "timestamp": 1790094033,
-        "total": 316,
-        "window": 1
-      },
-      {
-        "phases": {
           "7": 116,
           "9": 12
         },
@@ -98,22 +88,14 @@
       },
       {
         "phases": {
-          "7": 137,
-          "9": 11
+          "2": 55,
+          "7": 152,
+          "8": 5,
+          "9": 12
         },
-        "temp_bucket": 2,
-        "timestamp": 1789977704,
-        "total": 274,
-        "window": 1
-      },
-      {
-        "phases": {
-          "7": 117,
-          "9": 11
-        },
-        "temp_bucket": 2,
-        "timestamp": 1790007978,
-        "total": 337,
+        "temp_bucket": 1,
+        "timestamp": 1790275855,
+        "total": 320,
         "window": 1
       },
       {
@@ -207,6 +189,30 @@
         "timestamp": 1790256152,
         "total": 316,
         "window": 1
+      },
+      {
+        "phases": {
+          "2": 39,
+          "7": 155,
+          "8": 51,
+          "9": 11
+        },
+        "temp_bucket": 2,
+        "timestamp": 1790276339,
+        "total": 291,
+        "window": 1
+      },
+      {
+        "phases": {
+          "2": 46,
+          "7": 122,
+          "8": 5,
+          "9": 11
+        },
+        "temp_bucket": 2,
+        "timestamp": 1790279515,
+        "total": 285,
+        "window": 1
       }
     ]
   },
@@ -273,7 +279,7 @@
             "temperature_sensor System on a Chip",
             "temperature_sensor Chamber"
           ],
-          "timestamp": "2026-09-24T18:20:11Z"
+          "timestamp": "2026-09-24T18:43:02Z"
         },
         "optional": []
       },
@@ -673,10 +679,10 @@
   "thermal": {
     "rates": {
       "extruder": {
-        "heat_rate": 2.1124894618988037
+        "heat_rate": 1.4504963159561157
       },
       "heater_bed": {
-        "heat_rate": 2.4386303424835205
+        "heat_rate": 2.360391855239868
       }
     }
   },
