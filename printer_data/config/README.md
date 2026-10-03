@@ -128,6 +128,7 @@ All status macros activate matching effects on the StealthBurner logo, StealthBu
 | Macro | File | Description |
 |---|---|---|
 | `TEST_SPEED_FAST` | `macros/speed_test.cfg` | Runs a diagonal and edge travel speed test across the full bed at the configured travel speed. Useful for verifying max speed stability. |
+| `LUBE_LEADSCREWS` | `macros/maintenance.cfg` | Cycles the bed up/down across full Z travel to spread freshly applied leadscrew lube. Parameters: `CYCLES=` (default 3), `SPEED=` (mm/s, default `travel_z`). |
 | `SET_PRINT_STATS_INFO` | `macros/misc.cfg` | Override of the Klipper built-in. Updates the display with the current layer number during printing. Add `SET_PRINT_STATS_INFO TOTAL_LAYER=[total_layer_count]` to slicer start gcode and `SET_PRINT_STATS_INFO CURRENT_LAYER={layer_num + 1}` to layer change gcode. |
 | `DUMP_VARIABLES` | `macros/misc.cfg` | Prints all current Klipper printer variables to the console. Optional parameter: `NAME=` to filter by keyword. Useful for debugging macros. |
 | `M109` | `macros/misc.cfg` | Override of the standard M109 (wait for nozzle temp). Uses `TEMPERATURE_WAIT` with a ±1°C window instead of blocking indefinitely, allowing Klipper to process other commands. |
