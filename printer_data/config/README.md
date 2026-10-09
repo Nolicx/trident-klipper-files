@@ -67,7 +67,7 @@ Backup provided by [Klipper-Backup](https://github.com/Staubgeborener/Klipper-Ba
 
 | Macro | File | Description |
 |---|---|---|
-| `PRINT_START` | `macros/print_start.cfg` | Full print start sequence: homes axes, heats bed, heats nozzle to probe temp (150°C). If `BED_TEMP > bed_temp_high` (90°C): starts nevermore fan and heats soak for 5 min. Cleans nozzle, homes Z, levels gantry (`Z_TILT_ADJUST`), cleans again, homes Z, maps adaptive bed mesh, heats to print temp (parked), final clean, `SQUIGGLY_PURGE`. Parameters: `BED=` (bed temp °C), `EXTRUDER=` (extruder temp °C). |
+| `PRINT_START` | `macros/print_start.cfg` | Full print start sequence: clears any stale pause flag (`CLEAR_PAUSE` — a pause left over from an idle-time `M600`/manual pause would otherwise silently no-op a real pause later in the print), homes axes, heats bed non-blocking with live progress (`_HEAT_BED_WAIT`, falls back to blocking `M190` after 20 min as a safety backstop), heats nozzle to probe temp (150°C). If `BED_TEMP > bed_temp_high` (90°C): starts nevermore fan and heatsoaks for up to 5 min with the auxiliary fan running (`heatsoak_aux_fan_speed`, off once done). Cleans nozzle, homes Z, levels gantry (`Z_TILT_ADJUST`), cleans again, homes Z, maps adaptive bed mesh, heats to print temp (parked), final clean, `SQUIGGLY_PURGE`. Parameters: `BED=` (bed temp °C), `EXTRUDER=` (extruder temp °C). |
 | `PRINT_END` | `macros/print_end.cfg` | Print end sequence: retracts `purge_line_tip` mm, turns off heaters and fans, clears bed mesh, moves to the fixed presentation height `max_z - end_z_clearance` (never moving down through a taller print — only raises by `end_z_raise` in that case), cleans nozzle without raising Z back up (`RETURN=0`), disables motors, turns off case light and nevermore. |
 | `SQUIGGLY_PURGE` | `macros/squiggly_purge.cfg` | Draws a sinusoidal purge/prime line adaptively positioned near the print area. Third-party macro ([source](https://github.com/mjonuschat/voron-mods/tree/main/Squiggly%20Purge)); height/width/length/margin/flow/tip come from `_VARIABLES` (`purge_line_*`), everything else uses its defaults. Called with `LINE_WIDTH` set (solver mode) so the macro sizes the path itself instead of a fixed path length — keeps height/width under its 0.75 adhesion limit regardless of purge amount. |
 
@@ -140,7 +140,7 @@ All status macros activate matching effects on the StealthBurner logo, StealthBu
 |---|---|---|
 | `_VARIABLES` | `macros/_variables.cfg` | Central configuration store for all positions, speeds, temperatures, and feature flags. All macros read from here — edit this file to tune printer behaviour without touching individual macros. Values marked `[live]` can instead be overridden at runtime, see below. |
 
-Cleaning/purge/mesh-check values marked `[live]` in `_variables.cfg` (wipe, circular scrub, purge, `SQUIGGLY_PURGE`, `BED_MESH_CHECK` thresholds) can be changed without editing files or restarting:
+Cleaning/purge/mesh-check/heatsoak values marked `[live]` in `_variables.cfg` (wipe, circular scrub, purge, `SQUIGGLY_PURGE`, `BED_MESH_CHECK` thresholds, heatsoak aux fan speed) can be changed without editing files or restarting:
 
 ```
 SAVE_VARIABLE VARIABLE=wipe_spd VALUE=180
