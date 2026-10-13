@@ -285,7 +285,7 @@
             "temperature_sensor System on a Chip",
             "temperature_sensor Chamber"
           ],
-          "timestamp": "2026-10-12T04:45:09Z"
+          "timestamp": "2026-10-12T14:56:54Z"
         },
         "optional": []
       },
@@ -685,10 +685,10 @@
   "thermal": {
     "rates": {
       "extruder": {
-        "heat_rate": 1.6522396802902222
+        "heat_rate": 3.4411683082580566
       },
       "heater_bed": {
-        "heat_rate": 1.962727665901184
+        "heat_rate": 4.330972671508789
       }
     }
   },
