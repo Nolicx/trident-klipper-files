@@ -42,18 +42,6 @@
     "entries": [
       {
         "phases": {
-          "2": 57,
-          "7": 157,
-          "8": 5,
-          "9": 11
-        },
-        "temp_bucket": 2,
-        "timestamp": 1791548867,
-        "total": 794,
-        "window": 1
-      },
-      {
-        "phases": {
           "2": 55,
           "7": 221,
           "8": 5,
@@ -219,6 +207,18 @@
         "timestamp": 1791871492,
         "total": 1030,
         "window": 1
+      },
+      {
+        "phases": {
+          "2": 45,
+          "7": 247,
+          "8": 5,
+          "9": 12
+        },
+        "temp_bucket": 1,
+        "timestamp": 1791911639,
+        "total": 1017,
+        "window": 1
       }
     ]
   },
@@ -285,7 +285,7 @@
             "temperature_sensor System on a Chip",
             "temperature_sensor Chamber"
           ],
-          "timestamp": "2026-10-13T05:12:15Z"
+          "timestamp": "2026-10-13T16:51:50Z"
         },
         "optional": []
       },
@@ -685,10 +685,10 @@
   "thermal": {
     "rates": {
       "extruder": {
-        "heat_rate": 2.3167779445648193
+        "heat_rate": 1.9028911590576172
       },
       "heater_bed": {
-        "heat_rate": 3.983353853225708
+        "heat_rate": 3.97499680519104
       }
     }
   },
