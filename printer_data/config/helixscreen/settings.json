@@ -42,30 +42,6 @@
     "entries": [
       {
         "phases": {
-          "2": 30,
-          "7": 212,
-          "8": 61,
-          "9": 12
-        },
-        "temp_bucket": 1,
-        "timestamp": 1792474059,
-        "total": 441,
-        "window": 1
-      },
-      {
-        "phases": {
-          "2": 45,
-          "7": 125,
-          "8": 5,
-          "9": 11
-        },
-        "temp_bucket": 1,
-        "timestamp": 1792838384,
-        "total": 343,
-        "window": 1
-      },
-      {
-        "phases": {
           "2": 56,
           "7": 124,
           "8": 5,
@@ -126,14 +102,14 @@
       },
       {
         "phases": {
-          "2": 55,
-          "7": 181,
-          "8": 5,
+          "2": 14,
+          "7": 188,
+          "8": 61,
           "9": 11
         },
-        "temp_bucket": 2,
-        "timestamp": 1792328582,
-        "total": 744,
+        "temp_bucket": 1,
+        "timestamp": 1793534436,
+        "total": 395,
         "window": 1
       },
       {
@@ -219,6 +195,30 @@
         "timestamp": 1793286285,
         "total": 284,
         "window": 1
+      },
+      {
+        "phases": {
+          "2": 13,
+          "7": 187,
+          "8": 61,
+          "9": 11
+        },
+        "temp_bucket": 2,
+        "timestamp": 1793535910,
+        "total": 358,
+        "window": 1
+      },
+      {
+        "phases": {
+          "2": 57,
+          "7": 192,
+          "8": 5,
+          "9": 11
+        },
+        "temp_bucket": 2,
+        "timestamp": 1793557377,
+        "total": 373,
+        "window": 1
       }
     ]
   },
@@ -285,7 +285,7 @@
             "temperature_sensor System on a Chip",
             "temperature_sensor Chamber"
           ],
-          "timestamp": "2026-10-29T17:26:29Z"
+          "timestamp": "2026-11-01T12:14:48Z"
         },
         "optional": []
       },
@@ -685,10 +685,10 @@
   "thermal": {
     "rates": {
       "extruder": {
-        "heat_rate": 2.143745183944702
+        "heat_rate": 1.7477099895477295
       },
       "heater_bed": {
-        "heat_rate": 2.042691469192505
+        "heat_rate": 2.260195732116699
       }
     }
   },
